@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+
+  n8n:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - EXECUTIONS_PROCESS=main
+    ports:
+      - 5678:5678
+    volumes:
+      - ~/.n8n:/home/node/.n8n
+      - ./scripts:/scripts
+    command: /bin/sh -c "sleep 5 ; node ./packages/cli/bin/n8n"
+
+  serversocket:
+    build:
+      context: .
+      dockerfile: DockerfileSocket
+    restart: always
+    ports:
+      - 42542:3000
